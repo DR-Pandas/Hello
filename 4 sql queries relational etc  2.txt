@@ -1,0 +1,132 @@
+-- 1. Create Database
+CREATE DATABASE mydatabase;
+
+-- 2. Use the newly created database
+USE mydatabase;
+
+-- 3. Create the CUSTOMERS table
+CREATE TABLE CUSTOMERS (
+    ID INT PRIMARY KEY,          -- ID is the primary key
+    NAME VARCHAR(50),            -- Name is a string up to 50 characters
+    AGE INT,                     -- Age is an integer
+    ADDRESS VARCHAR(100),        -- Address is a string up to 100 characters
+    SALARY DECIMAL(10, 2)        -- Salary is a decimal number with 2 decimal places
+);
+
+-- 4. Insert sample data into the CUSTOMERS table
+INSERT INTO CUSTOMERS (ID, NAME, AGE, ADDRESS, SALARY) VALUES
+(1, 'Ramesh', 32, 'Ahmedabad', 2000.00),
+(2, 'Khilan', 25, 'Delhi', 1500.00),
+(3, 'Kaushik', 23, 'Kota', 2000.00),
+(4, 'Chaitali', 25, 'Mumbai', 6500.00),
+(5, 'Hardik', 27, 'Bhopal', 8500.00),
+(6, 'Komal', 22, 'MP', 4500.00),
+(7, 'Muffy', 24, 'Indore', 10000.00);
+
+-- 5. Relational Operators - Using AND
+-- Find customers with salary greater than 2000 and age less than 25
+SELECT ID, NAME, SALARY 
+FROM CUSTOMERS 
+WHERE SALARY > 2000 AND AGE < 25;
+
+-- 6. Relational Operators - Using OR
+-- Find customers with salary greater than 2000 or age less than 25
+SELECT ID, NAME, SALARY 
+FROM CUSTOMERS 
+WHERE SALARY > 2000 OR AGE < 25;
+
+-- 7. Arithmetic Operators
+-- Select all customers where salary equals salary + 1000 (effectively checks if salary is unchanged)
+SELECT * FROM CUSTOMERS 
+WHERE SALARY = SALARY + 1000;
+
+-- 8. Boolean Operators and Pattern Matching - Using LIKE
+-- Find customers whose salary starts with '200'
+SELECT * FROM CUSTOMERS 
+WHERE SALARY LIKE '200%';
+
+-- 9. Arithmetic Operations and Built-in Functions
+-- Calculate total salary of all customers
+SELECT SUM(SALARY) AS TotalSalary FROM CUSTOMERS;
+
+-- Find the average salary of customers
+SELECT AVG(SALARY) AS AverageSalary FROM CUSTOMERS;
+
+-- Count the number of customers
+SELECT COUNT(*) AS TotalCustomers FROM CUSTOMERS;
+
+-- Find the maximum salary among customers
+SELECT MAX(SALARY) AS MaxSalary FROM CUSTOMERS;
+
+-- Find the minimum salary among customers
+SELECT MIN(SALARY) AS MinSalary FROM CUSTOMERS;
+
+-- 10. Group Functions (Aggregate Functions)
+-- Group by address and calculate the total salary in each location
+SELECT ADDRESS, SUM(SALARY) AS TotalSalary
+FROM CUSTOMERS
+GROUP BY ADDRESS;
+
+-- 11. Date and Time Functions
+-- Extract the date from a datetime value
+SELECT DATE("2017-06-15 09:34:21");
+
+-- Get the current date
+SELECT CURDATE();
+
+-- Add 1 year to the current date
+SELECT DATE_ADD(CURDATE(), INTERVAL 1 YEAR);
+
+-- 12. Set Operations - UNION
+-- Select customers from hostel1 and hostel2 using UNION
+SELECT * FROM hostel1
+UNION
+SELECT * FROM hostel2;
+
+-- 13. Set Operations - INTERSECT
+-- Find records common between hostel1 and hostel2 using INTERSECT
+SELECT * FROM hostel1
+INTERSECT
+SELECT * FROM hostel2;
+
+-- 14. Set Operations - EXCEPT
+-- Find records that are in hostel1 but not in hostel2 using EXCEPT
+SELECT * FROM hostel1
+EXCEPT
+SELECT * FROM hostel2;
+
+-- 15. Nested Queries (Subqueries or Complex Queries)
+-- Select customers whose ID is in the list of IDs with salary greater than 4500
+SELECT * 
+FROM CUSTOMERS 
+WHERE ID IN (SELECT ID FROM CUSTOMERS WHERE SALARY > 4500);
+
+-- 16. Pattern Matching Using LIKE Clause
+-- Find all customers whose salary ends with '00'
+SELECT * FROM CUSTOMERS
+WHERE SALARY LIKE '%00';
+
+-- Find any salary that starts with 200
+SELECT * FROM CUSTOMERS WHERE SALARY LIKE '200%';
+
+-- Find any salary that contains '200' at any position
+SELECT * FROM CUSTOMERS WHERE SALARY LIKE '%200%';
+
+-- Find any salary where '00' appears in the second and third positions
+SELECT * FROM CUSTOMERS WHERE SALARY LIKE '_00%';
+
+-- Find any salary that starts with '2' and is at least 3 characters in length
+SELECT * FROM CUSTOMERS WHERE SALARY LIKE '2_%_%';
+
+-- 17. Date and Time Processing
+-- Get the current date
+SELECT CURDATE() AS CurrentDate;
+
+-- Get the current time
+SELECT CURTIME() AS CurrentTime;
+
+-- Get the current date and time
+SELECT NOW() AS CurrentDateTime;
+
+-- Find orders on a specific date (assuming Orders table exists with OrderDate column)
+SELECT * FROM Orders WHERE OrderDate = '2008-11-11';

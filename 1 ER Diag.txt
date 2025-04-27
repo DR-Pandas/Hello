@@ -1,0 +1,91 @@
+[Book] ---< (Loan) >--- [Member]
+
+
+
+
+[Book] (BookID, Title, Author, Publisher, Year)
+   |
+   |<----- (BookID)
+   |
+(Loan) (LoanID, LoanDate, ReturnDate, BookID, MemberID)
+   |
+   |-----> (MemberID)
+   |
+[Member] (MemberID, Name, Address, Phone)
+
+
+
+
+-- Create the Database
+CREATE DATABASE LibraryDB;
+USE LibraryDB;
+
+-- Create the Book table
+CREATE TABLE Book (
+    BookID INT PRIMARY KEY AUTO_INCREMENT,
+    Title VARCHAR(255) NOT NULL,
+    Author VARCHAR(255),
+    Publisher VARCHAR(255),
+    Year YEAR
+);
+
+-- Create the Member table
+CREATE TABLE Member (
+    MemberID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(255) NOT NULL,
+    Address VARCHAR(255),
+    Phone VARCHAR(20)
+);
+
+-- Create the Loan table
+CREATE TABLE Loan (
+    LoanID INT PRIMARY KEY AUTO_INCREMENT,
+    LoanDate DATE NOT NULL,
+    ReturnDate DATE,
+    BookID INT,
+    MemberID INT,
+    FOREIGN KEY (BookID) REFERENCES Book(BookID),
+    FOREIGN KEY (MemberID) REFERENCES Member(MemberID)
+);
+
+-- Insert data into the Book table
+INSERT INTO Book (Title, Author, Publisher, Year) VALUES
+('The Great Gatsby', 'F. Scott Fitzgerald', 'Scribner', 1925),
+('1984', 'George Orwell', 'Secker & Warburg', 1949),
+('To Kill a Mockingbird', 'Harper Lee', 'J.B. Lippincott & Co.', 1960),
+('The Hobbit', 'J.R.R. Tolkien', 'Allen & Unwin', 1937);
+
+-- Insert data into the Member table
+INSERT INTO Member (Name, Address, Phone) VALUES
+('Alice Johnson', '123 Maple Street', '555-1234'),
+('Bob Smith', '456 Oak Avenue', '555-5678'),
+('Charlie Davis', '789 Pine Road', '555-9012');
+
+-- Insert data into the Loan table
+INSERT INTO Loan (LoanDate, ReturnDate, BookID, MemberID) VALUES
+('2025-04-01', '2025-04-10', 1, 1),
+('2025-04-05', NULL, 2, 2),
+('2025-04-07', '2025-04-20', 3, 3);
+
+-- Select all data from the Book table
+SELECT * FROM Book;
+
+-- Select all data from the Member table
+SELECT * FROM Member;
+
+-- Select all data from the Loan table
+SELECT * FROM Loan;
+
+-- View a full report combining Loan info, Book title, and Member name
+SELECT 
+    Loan.LoanID,
+    Member.Name AS MemberName,
+    Book.Title AS BookTitle,
+    Loan.LoanDate,
+    Loan.ReturnDate
+FROM 
+    Loan
+INNER JOIN 
+    Member ON Loan.MemberID = Member.MemberID
+INNER JOIN 
+    Book ON Loan.BookID = Book.BookID;

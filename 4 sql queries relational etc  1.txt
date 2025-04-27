@@ -1,0 +1,148 @@
+-- Step 1: Create the database
+CREATE DATABASE EmployeeDB;
+
+-- Step 2: Use the newly created database
+USE EmployeeDB;
+
+-- Step 3: Create the table
+CREATE TABLE EmployeeDetails (
+    ID INT PRIMARY KEY,
+    NAME VARCHAR(100),
+    AGE INT,
+    ADDRESS VARCHAR(100),
+    SALARY DECIMAL(10, 2)
+);
+
+-- Step 4: Insert the data
+INSERT INTO EmployeeDetails (ID, NAME, AGE, ADDRESS, SALARY) VALUES
+(1, 'Ramesh', 32, 'Ahmedabad', 2000.00),
+(2, 'Khilan', 25, 'Delhi', 1500.00),
+(3, 'Kaushik', 23, 'Kota', 2000.00),
+(4, 'Chaitali', 25, 'Mumbai', 6500.00),
+(5, 'Hardik', 27, 'Bhopal', 8500.00),
+(6, 'Komal', 22, 'MP', 4500.00),
+(7, 'Muffy', 24, 'Indore', 10000.00);
+
+
+1. Implementation of Relational Operators in SQL
+
+-- Select employees with Salary greater than 5000
+SELECT * FROM EmployeeDetails
+WHERE SALARY > 5000;
+
+-- Select employees whose age is between 25 and 30
+SELECT * FROM EmployeeDetails
+WHERE AGE BETWEEN 25 AND 30;
+
+-- Select employees whose name starts with 'K'
+SELECT * FROM EmployeeDetails
+WHERE NAME LIKE 'K%';
+
+
+
+2. Boolean Operators and Pattern Matching
+Boolean operators include AND, OR, and NOT. Pattern matching is done using LIKE with wildcards.
+
+-- Select employees with Age between 22 and 27 AND Salary greater than 3000
+SELECT * FROM EmployeeDetails
+WHERE AGE BETWEEN 22 AND 27
+AND SALARY > 3000;
+
+-- Select employees whose name contains 'a'
+SELECT * FROM EmployeeDetails
+WHERE NAME LIKE '%a%';
+
+-- Select employees whose address is NOT 'Delhi'
+SELECT * FROM EmployeeDetails
+WHERE ADDRESS NOT LIKE 'Delhi';
+
+
+
+3. Arithmetic Operations and Built-in Functions
+SQL allows arithmetic operations like addition, subtraction, multiplication, and division. Built-in functions include AVG(), COUNT(), SUM(), etc.
+
+-- Calculate the average salary of employees
+SELECT AVG(SALARY) AS AverageSalary FROM EmployeeDetails;
+
+-- Add 500 to each employee's salary and display
+SELECT NAME, SALARY + 500 AS NewSalary FROM EmployeeDetails;
+
+-- Count the total number of employees
+SELECT COUNT(*) AS TotalEmployees FROM EmployeeDetails;
+
+-- Find the highest salary
+SELECT MAX(SALARY) AS HighestSalary FROM EmployeeDetails;
+
+-- Find the lowest salary
+SELECT MIN(SALARY) AS LowestSalary FROM EmployeeDetails;
+
+-- Add 10% bonus to each salary
+SELECT NAME, SALARY * 1.10 AS SalaryWithBonus FROM EmployeeDetails;
+
+
+
+4. Group Functions (Aggregate Functions)
+
+-- Group employees by age and find the average salary per age group
+SELECT AGE, AVG(SALARY) AS AverageSalary
+FROM EmployeeDetails
+GROUP BY AGE;
+
+-- Find the number of employees in each city
+SELECT ADDRESS, COUNT(*) AS NumberOfEmployees
+FROM EmployeeDetails
+GROUP BY ADDRESS;
+
+-- Find the maximum and minimum salary for each age group
+SELECT AGE, MAX(SALARY) AS MaxSalary, MIN(SALARY) AS MinSalary
+FROM EmployeeDetails
+GROUP BY AGE;
+
+
+
+Processing Date and Time Functions
+
+-- Add 1 year to the current date
+SELECT DATE_ADD(CURDATE(), INTERVAL 1 YEAR) AS NextYearDate;
+
+-- Find employees who joined before a certain date (assuming we have a 'JoiningDate' column)
+SELECT * FROM EmployeeDetails
+WHERE JOININGDATE < '2022-01-01';
+
+-- Calculate the difference in days between the current date and the employee's joining date
+SELECT NAME, DATEDIFF(CURDATE(), JOININGDATE) AS DaysSinceJoining
+FROM EmployeeDetails;
+
+-- Get the current date
+SELECT CURDATE() AS CurrentDate;
+
+-- Get the current time
+SELECT CURTIME() AS CurrentTime;
+
+
+
+6. Complex Queries and Set Operators
+
+-- Complex Query with JOIN: Assume another table 'Department' exists with columns 'DeptID' and 'DeptName'
+SELECT E.NAME, D.DeptName, E.SALARY
+FROM EmployeeDetails E
+JOIN Department D ON E.DeptID = D.DeptID
+WHERE E.SALARY > 4000;
+
+-- Using UNION to combine results from two queries (select employees with high salary and young employees)
+SELECT NAME, SALARY FROM EmployeeDetails WHERE SALARY > 5000
+UNION
+SELECT NAME, SALARY FROM EmployeeDetails WHERE AGE < 25;
+
+-- Using INTERSECT to find employees who satisfy both conditions: Salary > 5000 and Age < 30
+SELECT NAME, SALARY FROM EmployeeDetails WHERE SALARY > 5000
+INTERSECT
+SELECT NAME, SALARY FROM EmployeeDetails WHERE AGE < 30;
+
+-- Using EXCEPT to exclude employees under 25 from a salary query
+SELECT NAME, SALARY FROM EmployeeDetails WHERE SALARY > 5000
+EXCEPT
+SELECT NAME, SALARY FROM EmployeeDetails WHERE AGE < 25;
+
+
+

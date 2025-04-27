@@ -1,0 +1,54 @@
+-- Create a new database
+CREATE DATABASE employee_database;
+
+-- Switch to the newly created database
+USE employee_database;
+
+-- Create the employees table
+CREATE TABLE employees (
+    ID INT PRIMARY KEY,
+    NAME VARCHAR(50),
+    AGE INT,
+    ADDRESS VARCHAR(100),
+    SALARY DECIMAL(10, 2)
+);
+
+-- Insert data into the employees table
+INSERT INTO employees (ID, NAME, AGE, ADDRESS, SALARY)
+VALUES
+(1, 'Ramesh', 32, 'Ahmedabad', 2000.00),
+(2, 'Khilan', 25, 'Delhi', NULL),
+(3, 'Kaushik', 23, 'Kota', 1500.00),
+(4, 'Chaitali', 25, 'Mumbai', 6500.00),
+(5, 'Hardik', 27, 'Bhopal', 8500.00),
+(6, 'Komal', 22, 'MP', 4500.00),
+(7, 'Muffy', 24, 'Indore', 10000.00);
+
+-- Create a view for basic employee details (updatable view)
+CREATE VIEW employee_basic_details AS
+SELECT ID, NAME, AGE, ADDRESS
+FROM employees;
+
+-- Try updating salary via the view (non-updatable columns)
+UPDATE employee_basic_details
+SET SALARY = 3000.00
+WHERE ID = 1;
+
+-- Create a view for employees including all columns (updatable view)
+CREATE VIEW full_employee_details AS
+SELECT ID, NAME, AGE, ADDRESS, SALARY
+FROM employees;
+
+-- Insert a row into the view (this will insert into the base table)
+INSERT INTO full_employee_details (ID, NAME, AGE, ADDRESS, SALARY)
+VALUES (8, 'Sandeep', 30, 'Chennai', 5500.00);
+
+-- Delete a record from the view (this removes from the base table as well)
+DELETE FROM full_employee_details
+WHERE AGE = 22;
+
+-- Drop the full_employee_details view
+DROP VIEW full_employee_details;
+
+-- Drop the full_employee_details view if it exists (safe drop)
+DROP VIEW IF EXISTS full_employee_details;

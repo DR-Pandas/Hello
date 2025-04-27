@@ -1,0 +1,49 @@
+-- Step 1: Create a database
+CREATE DATABASE CompanyDB;
+
+-- Step 2: Use the created database
+USE CompanyDB;
+
+-- Creating Department table
+CREATE TABLE Department (
+    DeptID INT PRIMARY KEY,                  -- Unique identifier for department
+    DeptName VARCHAR(100)                     -- Department name
+);
+
+-- Creating Employee table with Foreign Key reference to Department
+CREATE TABLE Employee (
+    EmpID INT PRIMARY KEY,                    -- Unique identifier for employee
+    EmpName VARCHAR(100),                     -- Employee's name
+    DeptID INT,                               -- Foreign key referencing Department
+    Salary DECIMAL(10, 2),                     -- Employee's salary
+    JoiningDate DATE,                          -- Employee's joining date
+    FOREIGN KEY (DeptID) REFERENCES Department(DeptID)  -- Foreign key constraint
+);
+
+-- Insert Values into Department table
+INSERT INTO Department (DeptID, DeptName) VALUES
+(1, 'Human Resources'),
+(2, 'Finance'),
+(3, 'Engineering'),
+(4, 'Marketing');
+
+-- Insert Values into Employee table
+INSERT INTO Employee (EmpID, EmpName, DeptID, Salary, JoiningDate) VALUES
+(101, 'Alice Johnson', 1, 60000.00, '2022-05-10'),
+(102, 'Bob Smith', 3, 75000.00, '2021-08-15'),
+(103, 'Charlie Brown', 2, 50000.00, '2023-01-01'),
+(104, 'Diana Prince', 4, 70000.00, '2020-11-20');
+
+-- Alter Table: Add a new column to Employee table
+ALTER TABLE Employee
+ADD JoiningDate DATE;
+
+-- Alter Table: Modify column data type (increasing EmpName size)
+ALTER TABLE Employee
+MODIFY EmpName VARCHAR(150);
+
+-- Drop the Employee table
+DROP TABLE Employee;
+
+-- Drop the Department table
+DROP TABLE Department;

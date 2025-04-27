@@ -1,0 +1,84 @@
+-- ==================================================================
+-- CREATE TABLES
+-- ==================================================================
+
+-- Create 'Accidents' Table
+-- This table stores information about each accident
+CREATE TABLE Accidents (
+    accident_id INT PRIMARY KEY,        -- Primary Key for Accident
+    accident_date DATE,                 -- Date of the accident
+    severity VARCHAR(50)                -- Severity of the accident (e.g., High, Low)
+);
+
+-- Create 'Vehicles' Table
+-- This table stores information about vehicles involved in accidents
+-- It has a foreign key that references the 'Accidents' table
+CREATE TABLE Vehicles (
+    vehicle_id INT PRIMARY KEY,         -- Primary Key for Vehicle
+    accident_id INT,                    -- Foreign Key referencing Accidents table
+    vehicle_type VARCHAR(50),           -- Type of the vehicle (e.g., car, truck)
+    vehicle_model VARCHAR(100),         -- Model of the vehicle (e.g., Toyota Camry)
+    FOREIGN KEY (accident_id) REFERENCES Accidents(accident_id)  -- Foreign Key Constraint
+);
+
+-- ==================================================================
+-- INSERT SAMPLE DATA
+-- ==================================================================
+
+-- Insert sample data into 'Accidents' table
+-- These represent some accidents with different severity levels
+INSERT INTO Accidents (accident_id, accident_date, severity) 
+VALUES 
+(1, '2025-04-20', 'High'),   -- Accident 1 with High Severity
+(2, '2025-04-21', 'Low');    -- Accident 2 with Low Severity
+
+-- Insert sample data into 'Vehicles' table
+-- These represent vehicles involved in the accidents above
+INSERT INTO Vehicles (vehicle_id, accident_id, vehicle_type, vehicle_model) 
+VALUES 
+(1, 1, 'Car', 'Toyota Camry'),       -- Vehicle 1 involved in Accident 1 (Car)
+(2, 1, 'Truck', 'Ford F-150'),       -- Vehicle 2 involved in Accident 1 (Truck)
+(3, 2, 'Motorcycle', 'Harley Davidson');  -- Vehicle 3 involved in Accident 2 (Motorcycle)
+
+-- ==================================================================
+-- EXAMPLE QUERIES
+-- ==================================================================
+
+-- Get all accidents with severity 'High'
+-- This query retrieves accidents where severity is 'High'
+SELECT accident_id, accident_date, severity
+FROM Accidents
+WHERE severity = 'High';
+
+-- Get all vehicles involved in a specific accident (accident_id = 1)
+-- This query retrieves the vehicles involved in Accident 1
+SELECT vehicle_type, vehicle_model
+FROM Vehicles
+WHERE accident_id = 1;
+
+-- ==================================================================
+-- OPTIONAL ALTER TABLE STATEMENTS
+-- ==================================================================
+
+-- Add a new column to the 'Vehicles' table to store the vehicle's year
+ALTER TABLE Vehicles
+ADD COLUMN vehicle_year INT;
+
+-- Modify the 'severity' column in the 'Accidents' table to allow a larger string
+ALTER TABLE Accidents
+MODIFY COLUMN severity VARCHAR(100);
+
+-- Drop the 'vehicle_year' column from the 'Vehicles' table (if no longer needed)
+ALTER TABLE Vehicles
+DROP COLUMN vehicle_year;
+
+-- ==================================================================
+-- OPTIONAL DROP TABLE STATEMENTS (if needed to remove tables)
+-- ==================================================================
+
+-- Drop the 'Vehicles' table (this will delete the table and its data)
+DROP TABLE Vehicles;
+
+-- Drop the 'Accidents' table (this will delete the table and its data)
+DROP TABLE Accidents;
+
