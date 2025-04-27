@@ -1,0 +1,79 @@
+-- Step 1: Create a new database
+CREATE DATABASE mydatabase;
+
+-- Step 2: Use the newly created database
+USE mydatabase;
+
+-- Step 3: Create the customers table
+CREATE TABLE customers (
+    ID INT PRIMARY KEY,
+    NAME VARCHAR(50),
+    AGE INT,
+    ADDRESS VARCHAR(100),
+    SALARY DECIMAL(10, 2)
+);
+
+-- Step 4: Insert sample records into the customers table
+INSERT INTO customers (ID, NAME, AGE, ADDRESS, SALARY) VALUES
+(1, 'Ramesh', 32, 'Ahmedabad', 2000.00),
+(2, 'Khilan', 25, 'Delhi', 1500.00),
+(3, 'Kaushik', 23, 'Kota', 2000.00),
+(4, 'Chaitali', 25, 'Mumbai', 6500.00),
+(5, 'Hardik', 27, 'Bhopal', 8500.00),
+(6, 'Komal', 22, 'MP', 4500.00);
+
+--------------------------------------------------------------------------------
+-- Example 1: Implicit Cursor Example
+--------------------------------------------------------------------------------
+
+DECLARE   
+   total_rows NUMBER(2);  
+BEGIN  
+   -- Update salary by adding 500 for all customers
+   UPDATE customers  
+   SET salary = salary + 500;  
+   
+   -- Check if any rows were updated
+   IF SQL%NOTFOUND THEN  
+      DBMS_OUTPUT.PUT_LINE('No customers selected');  
+   ELSE
+      total_rows := SQL%ROWCOUNT; 
+      DBMS_OUTPUT.PUT_LINE(total_rows || ' customers updated');  
+   END IF;   
+END;  
+/
+-- Output:
+-- 6 customers updated
+
+--------------------------------------------------------------------------------
+-- Example 2: Explicit Cursor Example
+--------------------------------------------------------------------------------
+
+DECLARE  
+   c_id customers.id%TYPE;  
+   c_name customers.name%TYPE;  
+   c_addr customers.address%TYPE;  
+
+   -- Define a cursor to fetch id, name, and address from customers table
+   CURSOR c_customers IS  
+      SELECT id, name, address FROM customers;  
+BEGIN  
+   OPEN c_customers;  
+
+   -- Loop through each row fetched by the cursor
+   LOOP  
+      FETCH c_customers INTO c_id, c_name, c_addr;  
+      EXIT WHEN c_customers%NOTFOUND;  
+      DBMS_OUTPUT.PUT_LINE(c_id || ' ' || c_name || ' ' || c_addr);  
+   END LOOP;  
+
+   CLOSE c_customers;  
+END;  
+/
+-- Output:
+-- 1 Ramesh Ahmedabad
+-- 2 Khilan Delhi
+-- 3 Kaushik Kota
+-- 4 Chaitali Mumbai
+-- 5 Hardik Bhopal
+-- 6 Komal MP

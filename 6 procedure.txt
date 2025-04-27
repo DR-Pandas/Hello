@@ -1,0 +1,44 @@
+-- Example 1: Define and call a simple procedure 'greetings' to output a greeting message
+CREATE OR REPLACE PROCEDURE greetings  
+AS  
+BEGIN  
+    -- Print 'Hello World!' to the console
+    dbms_output.put_line('Hello World!');  
+END;  
+/ 
+
+-- Call the 'greetings' procedure to output the greeting message
+BEGIN
+    greetings;
+END;
+/
+
+-- Example 2: Declare variables and define a procedure to find the minimum of two numbers
+DECLARE  
+    a number;  -- First number
+    b number;  -- Second number
+    c number;  -- Variable to hold the minimum value
+
+    -- Procedure to find the minimum of two numbers
+    PROCEDURE findMin(x IN number, y IN number, z OUT number) IS  
+    BEGIN  
+        -- Compare the two numbers and assign the smaller one to z
+        IF x < y THEN  
+            z := x;  
+        ELSE  
+            z := y;  
+        END IF;  
+    END;    
+
+BEGIN  
+    -- Initialize the numbers
+    a := 23;  
+    b := 45;  
+    
+    -- Call the procedure to find the minimum between a and b, and store in c
+    findMin(a, b, c);  
+    
+    -- Output the minimum value
+    dbms_output.put_line('Minimum of (23, 45) : ' || c);  
+END;
+/
